@@ -278,6 +278,15 @@ export default class VirtualRenderer {
                     if (stableIdItem) {
                         this._recyclePool.putRecycledObject(stableIdItem.type, stableIdItem.key);
                     }
+                } else {
+                    const object = this._renderStack[key];
+                    if(object) {
+                        const index = this._renderStack[key].dataIndex;
+                        if(!ObjectUtil.isNullOrUndefined(index)) {
+                            // @ts-ignore
+                            this._layoutManager._layouts.splice(index, 1);
+                        }
+                    }
                 }
                 delete this._stableIdToRenderKeyMap[key];
             }
